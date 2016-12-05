@@ -23,6 +23,14 @@ public class kierownica : MonoBehaviour
             kalibracjaPos = target.transform.position;
             kalibracjaRot = target.transform.rotation.eulerAngles.x;
         }
-        kierunek.transform.rotation = Quaternion.Euler(0, 0,  kalibracjaRot - target.transform.rotation.eulerAngles.x);
-	}
+        //Debug.Log(target.transform.rotation.eulerAngles.y);
+        if(target.transform.rotation.eulerAngles.y > 180)
+        {
+            kierunek.transform.rotation = Quaternion.Euler(0, 0, kalibracjaRot - target.transform.rotation.eulerAngles.x);
+        }
+        else
+        {
+            kierunek.transform.rotation = Quaternion.Euler(0, 0, kalibracjaRot - (180 -target.transform.rotation.eulerAngles.x));
+        }
+    }
 }
