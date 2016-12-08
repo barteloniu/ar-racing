@@ -3,34 +3,40 @@ using System.Collections;
 
 public class kierownica : MonoBehaviour
 {
-    public Vector3 kalibracjaPos = new Vector3(0, -100, 0);
-    public float kalibracjaRot = 0.0f;
+
+    public float kierunek;
+    public float gaz;
+
+    Vector3 kalibracjaPos = new Vector3(0, -100, 0);
+    float kalibracjaRot = 0.0f;
     GameObject target;
-    GameObject kierunek;
-    GameObject gaz;
 
 	void Start ()
     {
         target = GameObject.Find("ImageTarget");
-        kierunek = transform.FindChild("kierownica").gameObject;
-        gaz = transform.FindChild("kwadrat").gameObject;
     }
 	
 	void Update ()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("space") || Input.GetKeyDown("escape"))
         {
-            kalibracjaPos = target.transform.position;
-            kalibracjaRot = target.transform.rotation.eulerAngles.x;
+            Kalibracja();
         }
-        //Debug.Log(target.transform.rotation.eulerAngles.y);
-        if(target.transform.rotation.eulerAngles.y > 180)
+
+        if (target.transform.rotation.eulerAngles.y > 180.0f)
         {
-            kierunek.transform.rotation = Quaternion.Euler(0, 0, kalibracjaRot - target.transform.rotation.eulerAngles.x);
+            kierunek = kalibracjaRot - target.transform.rotation.eulerAngles.x;
         }
         else
         {
-            kierunek.transform.rotation = Quaternion.Euler(0, 0, kalibracjaRot - (180 -target.transform.rotation.eulerAngles.x));
+            kierunek = kalibracjaRot - (180 - target.transform.rotation.eulerAngles.x);
         }
+        gaz = kalibracjaPos.z - target.transform.position.z;
+    }
+    
+    public void Kalibracja ()
+    {
+        kalibracjaPos = target.transform.position;
+        kalibracjaRot = target.transform.rotation.eulerAngles.x;
     }
 }
